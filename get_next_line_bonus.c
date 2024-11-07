@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 09:19:42 by cabo-ram          #+#    #+#             */
-/*   Updated: 2024/11/07 16:17:08 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2024/11/07 16:29:27 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static char	*rest(char *pile)
 {
@@ -89,17 +89,17 @@ static char	*join_pile(int fd, char *pile)
 
 char	*get_next_line(int fd)
 {
-	static char	*pile;
+	static char	*pile[1024];
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (pile == NULL)
-		pile = ft_strdup("");
-	pile = join_pile(fd, pile);
-	if (pile == NULL)
+	if (pile[fd] == NULL)
+		pile[fd] = ft_strdup("");
+	pile[fd] = join_pile(fd, &pile[fd][0]);
+	if (pile[fd] == NULL)
 		return (NULL);
-	line = get_line(pile);
-	pile = rest(pile);
+	line = get_line(&pile[fd][0]);
+	pile[fd] = rest(&pile[fd][0]);
 	return (line);
 }
