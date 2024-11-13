@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 09:19:42 by cabo-ram          #+#    #+#             */
-/*   Updated: 2024/11/07 16:29:27 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2024/11/11 12:29:35 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ static char	*rest(char *pile)
 	return (temp);
 }
 
-static char	*get_line(char *pile)
+static char	*get_new(char *pile)
 {
 	size_t	i;
-	char	*line;
+	char	*new;
 
 	i = 0;
 	if (!pile[i])
@@ -47,19 +47,19 @@ static char	*get_line(char *pile)
 		i++;
 	if (pile[i] == '\n')
 		i++;
-	line = (char *)malloc(i + 1);
-	if (line == NULL)
+	new = (char *)malloc(i + 1);
+	if (new == NULL)
 		return (NULL);
 	i = -1;
 	while (i++, pile[i] && pile[i] != '\n')
-		line[i] = pile[i];
+		new[i] = pile[i];
 	if (pile[i] == '\n')
 	{
-		line[i] = pile[i];
+		new[i] = pile[i];
 		i++;
 	}
-	line[i] = '\0';
-	return (line);
+	new[i] = '\0';
+	return (new);
 }
 
 static char	*join_pile(int fd, char *pile)
@@ -99,7 +99,7 @@ char	*get_next_line(int fd)
 	pile[fd] = join_pile(fd, &pile[fd][0]);
 	if (pile[fd] == NULL)
 		return (NULL);
-	line = get_line(&pile[fd][0]);
+	line = get_new(&pile[fd][0]);
 	pile[fd] = rest(&pile[fd][0]);
 	return (line);
 }
